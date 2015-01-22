@@ -1,0 +1,5 @@
+---
+
+shell: /bin/bash
+home: /home/{{ user }}
+ssh_home: '{{ home }}/.ssh'

@@ -1,0 +1,44 @@
+---
+
+- name: forced to login as some dumb user with ubuntu cloud img ?
+  lineinfile: 
+    dest: /root/.ssh/authorized_keys
+    regexp: 'Please login as the user'
+    state: absent
+
+- name: create {{ user }} user
+  user: 
+    name: '{{ user }}'
+    shell: '{{ shell }}' 
+    home: '{{ home }}'
+
+- name: secure home
+  file: 
+    path: '{{ home }}'
+    mode: 0700
+
+- name: create sudo entry
+  lineinfile: 
+    dest: /etc/sudoers
+    line: '{{ user }} ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    insertafter: EOF
+
+- name: create ssh dir
+  file: 
+    path: '{{ ssh_home }}'
+    mode: '0700' 
+    state: directory
+
+- name: install ssh keys
+  copy: 
+    src: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
+    dest: '{{ ssh_home }}/authorized_keys'
+    mode: 0600
+    owner: '{{ user }}'
+
+- name: fix permissions for ssh dir
+  file: 
+    path: '{{ ssh_home }}' 
+    owner: '{{ user }}'
+    mode: 0700

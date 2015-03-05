@@ -1,2 +1,3 @@
 ---
-# defaults file for superadmin
+
+user: "{{ lookup('env','USER') }}"

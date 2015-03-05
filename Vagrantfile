@@ -9,8 +9,6 @@ Vagrant.configure(2) do |config|
         ansible.playbook = "test.yml"
         ansible.extra_vars = {
             ansible_python_interpreter: "/usr/bin/python2",
-            ansible_ssh_user: 'vagrant',
-            user: 'james',
         }
     end
   end

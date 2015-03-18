@@ -6,11 +6,17 @@
     regexp: 'Please login as the user'
     state: absent
 
+- name: create group
+  group:
+    name: '{{ superadmin_group }}'
+    state: present
+
 - name: create {{ user }} user
   user: 
     name: '{{ user }}'
     shell: '{{ shell }}' 
     home: '{{ home }}'
+    group: '{{ superadmin_group }}'
 
 - name: secure home
   file: 
